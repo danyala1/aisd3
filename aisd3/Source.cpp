@@ -9,7 +9,7 @@ using namespace std;
 template<typename T>
 Equalization<T>::Equalization(T coefficent, double degree) {
     if (coefficent != T(0)) {
-        this->head = new list<T>;
+        this->head = new List<T>;
         this->head->degree = degree;
         this->head->coefficent = coefficent;
         this->head->next = NULL;
@@ -21,7 +21,7 @@ Equalization<T>::Equalization(T coefficent, double degree) {
 
 template<typename T>
 Equalization<T>:: ~Equalization() {
-    list<T>* p;
+    List<T>* p;
     count = 0;
     while (p = head)
     {
@@ -31,17 +31,17 @@ Equalization<T>:: ~Equalization() {
 }
 
 template<typename T>
-list<T>* Equalization<T>::GetHead()
+List<T>* Equalization<T>::GetHead()
 {
     return head;
 }
 
 template<typename T>
-void Equalization<T>::SetHead(list<T>* head) { this->head = head; }
+void Equalization<T>::SetHead(List<T>* head) { this->head = head; }
 
 template<typename T>
 bool Equalization<T>::DetectOldDegree(T coefficent, double degree) {
-    list<T>* FunctionHead = GetHead();
+    List<T>* FunctionHead = GetHead();
     while (FunctionHead) {
         if (FunctionHead->degree == degree) {
             FunctionHead->coefficent = FunctionHead->coefficent + coefficent;
@@ -59,8 +59,8 @@ void Equalization<T>::Set(T coefficent, double degree)
     if (!DetectOldDegree(coefficent, degree))
     {
         if (coefficent != T(0)) {
-            list<T>* pointer;
-            pointer = new list<T>;
+            List<T>* pointer;
+            pointer = new List<T>;
             pointer->coefficent = coefficent;
             pointer->degree = degree;
             pointer->next = this->head;
@@ -75,8 +75,8 @@ template<typename T>
 int Equalization<T>::DeleteElement(double degree)
 {
     int NowCount = 0;
-    list<T>* FunctionHead = GetHead();
-    list<T>* pred = FunctionHead;
+    List<T>* FunctionHead = GetHead();
+    List<T>* pred = FunctionHead;
     while (NowCount < count)
     {
         if (FunctionHead->degree == degree)
@@ -106,7 +106,7 @@ int Equalization<T>::DeleteElement(double degree)
 
 template<typename T>
 void  Equalization<T>::Derivative() {
-    list<T>* FunctionHead = GetHead();
+    List<T>* FunctionHead = GetHead();
 
     while (FunctionHead)
     {
@@ -121,7 +121,7 @@ void  Equalization<T>::Derivative() {
 
 template<typename T>
 void Equalization<T>::Multiplication(T value) {
-    list<T>* FunctionHead = GetHead();
+    List<T>* FunctionHead = GetHead();
     while (FunctionHead) {
         FunctionHead->coefficent = FunctionHead->coefficent * value;
         FunctionHead = FunctionHead->next;
@@ -131,7 +131,7 @@ void Equalization<T>::Multiplication(T value) {
 
 template<typename T>
 void Equalization<T>::Calculation(T x) {
-    list<T>* FunctionHead = GetHead();
+    List<T>* FunctionHead = GetHead();
     T sum = 0;
     while (FunctionHead) {
         sum += FunctionHead->coefficent * T(pow(x, FunctionHead->degree));
@@ -143,8 +143,8 @@ void Equalization<T>::Calculation(T x) {
 template<typename T>
 void Equalization<T>:: operator -(Equalization& src)
 {
-    list<T>* FunctionHead = GetHead();
-    list<T>* StartHeadB = src.head;
+    List<T>* FunctionHead = GetHead();
+    List<T>* StartHeadB = src.head;
     bool SearchSuccesesful;
     while (src.head) {
         SearchSuccesesful = false;
@@ -170,8 +170,8 @@ void Equalization<T>:: operator -(Equalization& src)
 template<typename T>
 void  Equalization<T>:: operator +(Equalization& src)
 {
-    list<T>* FunctionHead = GetHead();
-    list<T>* StartHeadB = src.head;
+    List<T>* FunctionHead = GetHead();
+    List<T>* StartHeadB = src.head;
     bool SearchSuccesesful;
     while (src.head) {
         SearchSuccesesful = false;
@@ -196,7 +196,7 @@ void  Equalization<T>:: operator +(Equalization& src)
 template<typename T>
 int Equalization<T>:: operator[](double degree)
 {
-    list<T>* FunctionHead = GetHead();
+    List<T>* FunctionHead = GetHead();
     while (FunctionHead) {
         if (FunctionHead->degree == degree)
         {

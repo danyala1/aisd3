@@ -1,21 +1,23 @@
 #include <stdio.h>
 #include <iostream>
+#include <list>
 
 using namespace std;
 
 template<typename T>
-struct list {
+struct List {
     double degree;
     T coefficent;
-    list* next;
+    List* next;
 };
 
 template<typename T>
 class Equalization
 {
 public:
-    
-    list<T>* head = nullptr;
+
+    list<List<T>> head;
+
     int count = 0;
 
     auto begin() { return head.begin(); }
@@ -29,9 +31,9 @@ public:
     Equalization(T coefficent, double degree);
     ~Equalization();
 
-    list<T>* GetHead();
+    List<T>* GetHead();
 
-    void SetHead(list<T>* head);
+    void SetHead(List<T>* head);
 
     bool DetectOldDegree(T coefficent, double degree);
 
