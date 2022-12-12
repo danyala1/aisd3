@@ -14,9 +14,18 @@ template<typename T>
 class Equalization
 {
 public:
-
+    
     list<T>* head = nullptr;
     int count = 0;
+
+    auto begin() { return head.begin(); }
+
+    auto end() { return head.end(); }
+
+    auto cbegin() const { return head.cbegin(); }
+
+    auto cend() const { return head.cend(); }
+
     Equalization(T coefficent, double degree);
     ~Equalization();
 
