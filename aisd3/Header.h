@@ -28,8 +28,13 @@ public:
 
     auto cend() const { return head.cend(); }
 
+    Equalization() = default;
+    Equalization(const Equalization& v) = default;
+    Equalization& operator = (const Equalization& v) = default;
+    ~Equalization() = default;
+
     Equalization(T coefficent, double degree);
-    ~Equalization();
+    
 
     List<T>* GetHead();
 
