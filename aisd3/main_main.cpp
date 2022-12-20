@@ -18,7 +18,6 @@ public:
     };
     int count = 0;
     list<Coefficent> head;
-    T epsilon = 0;
     Equalization(T coefficent, double degree)
     {
         if (coefficent != T(0)) {
@@ -31,9 +30,13 @@ public:
             count = 1;
         }
     }
+
     Equalization() = default;
+
     ~Equalization() = default;
+
     Equalization(Equalization<T>& other) = default;
+
     bool DetectOldDegree(T coefficent, double degree)
     {
 
@@ -222,6 +225,7 @@ public:
     auto cbegin()  const { return head.begin(); }
 
     auto cend()  const { return head.end(); }
+
     bool detect_coefficent_0() {
         auto FunctionHead = cbegin();
         while (FunctionHead != cend())
@@ -250,7 +254,6 @@ public:
     };
     int count = 0;
     list<Coefficent> head;
-    T epsilon = 0;
     Equalization(complex<T> coefficent, double degree)
     {
         if (real(coefficent) != T(0) || imag(coefficent) != 0) {
@@ -428,31 +431,7 @@ public:
             //StartHeadB++;
         }
     }
-    bool operator ==(Equalization& src)
-
-    {
-        auto FunctionHead = cbegin();
-        auto StartHeadB = src.cbegin();
-        //list<T>* FunctionHead = GetHead();
-        //list<T>* StartHeadB = src.head;
-        int SearchSuccesesful = 0;
-        if (count != src.count) return false;
-        while (StartHeadB != src.cend()) {
-            while (FunctionHead != cend()) {
-
-                //          ||degree1|  -   |degree2||   <  |epsilon|
-                if (abs(abs(FunctionHead->degree) - abs(StartHeadB->degree)) <= abs(epsilon) &&
-                    abs(abs(FunctionHead->coefficent) - abs(StartHeadB->coefficent)) <= abs(epsilon)) SearchSuccesesful++;
-                FunctionHead++;
-            }
-            StartHeadB++;
-        }
-        //src.head = StartHeadB;
-
-        if (SearchSuccesesful == count) return true;
-        else return false;
-
-    }
+    
     int operator[](double degree) {
         auto FunctionHead = cbegin();
         //auto StartHeadB = src.cbegin();
@@ -480,6 +459,7 @@ public:
     auto cbegin()  const { return head.begin(); }
 
     auto cend()  const { return head.end(); }
+
     bool detect_coefficent_0()
     {
         auto FunctionHead = cbegin();
@@ -525,6 +505,42 @@ ostream& operator<<(ostream& os, Equalization<T> Obj)
     return os;
 }
 
+double CheckDegree()
+{
+    double number = 0;
+    while (!(cin >> number) || (cin.peek() != '\n'))
+    {
+        cin.clear();
+        while (cin.get() != '\n');
+        cout << "Input correct value" << endl;
+    }
+    return number;
+}
+
+int CheckChoise()
+{
+    int number = 0;
+    while (!(cin >> number) || (cin.peek() != '\n'))
+    {
+        cin.clear();
+        while (cin.get() != '\n');
+        cout << "Enter a number" << endl;
+    }
+    return number;
+}
+
+template<class T>
+T CheckCoefficient()
+{
+    T number = 0;
+    while (!(cin >> number) || (cin.peek() != '\n'))
+    {
+        cin.clear();
+        while (cin.get() != '\n');
+        cout << "Enter a number" << endl;
+    }
+    return number;
+}
 
 template <typename T>
 void Menu1() {
@@ -533,35 +549,34 @@ void Menu1() {
         double degree;
         T coefficent;
         int choice;
-
+        setlocale(LC_ALL, "RUS");
         cout << "Введите коэфффицент первого элемента: " << endl;
-        cin >> coefficent;
+        coefficent = CheckCoefficient<T>();
         cout << "Введите степень первого элемента: " << endl;
-        cin >> degree;
+        degree = CheckDegree();
         Equalization<T> A(coefficent, degree);
         bool flag = true;
         while (flag) {
             system("cls");
-            //A.DeleteElement(0);
             cout << A;
             cout << "Выберите действие:\n1)Добавить новый элемент\n2)Умножить на скаляр\n3)Вычислить х\n4)Найти производную\n5)Сумма с другим многочленом\n6)Вычесть из него другой многочлен\n7)Средактировать коэффицент\n8)Удалить элемент\n\n9)Выход\n";
-            cin >> choice;
+            choice = CheckChoise();
             if (choice == 1)
             {
                 cout << "Введите коэффицент нового элемента: " << endl;
-                cin >> coefficent;
+                coefficent = CheckCoefficient<T>();
                 cout << "Введите степень нового элемента: " << endl;
-                cin >> degree;
+                degree = CheckDegree();
                 A.Set(coefficent, degree);
             }
             else if (choice == 2) {
                 cout << "Введите значение скаляра: " << endl;
-                cin >> coefficent;
+                coefficent = CheckCoefficient<T>();
                 A* coefficent;
             }
             else if (choice == 3) {
                 cout << "Введите значение х при котором вычисляем: " << endl;
-                cin >> coefficent;
+                coefficent = CheckCoefficient<T>();
                 A.Calculation(coefficent);
             }
             else if (choice == 4) {
@@ -573,24 +588,24 @@ void Menu1() {
                 Equalization<T> B(0, 0);
                 do {
                     cout << "Введите коэффицент первого элемента нового многочлена: ";
-                    cin >> coefficent;
+                    coefficent = CheckCoefficient<T>();
                     cout << "Введите степень первого элемента нового многочлена: ";
-                    cin >> degree;
+                    degree = CheckDegree();
                     B.Set(coefficent, degree);
                     cout << "Хотите добавить ещё один элемент? \n1)Да\n2)Нет\n";
-                    cin >> choice;
+                    choice = CheckChoise();
                 } while (choice == 1);
                 if (SumOperation) A + B;
                 else A - B;
             }
             else if (choice == 7) {
                 cout << "Выберите степень выбранного элемента";
-                cin >> degree;
+                degree = CheckDegree();
                 A[degree];
             }
             else if (choice == 8) {
                 cout << "Выберите степень выбранного элемента: ";
-                cin >> degree;
+                degree = CheckDegree();
                 if (A.DeleteElement(degree) == 0) cout << "Нет такого элемента :(" << endl;
             }
             else if (choice == 9) {
@@ -602,6 +617,7 @@ void Menu1() {
             }
             cout << "Для продолжения нажмите любую клавишу\n";
             _getch();
+
         }
     }
     catch (EClassException& err)
@@ -615,38 +631,44 @@ void Menu1() {
 
 int main()
 {
-    setlocale(LC_ALL, "RUS");
     while (true) {
-        cout << "Выберите тип:" << endl;;
-        cout << "1)int" << endl;;
-        cout << "2)float" << endl;;
-        cout << "3)double" << endl;;
-        cout << "4)complex (float)" << endl;;
-        cout << "5)complex (double)" << endl;;
-        cout << "6)Выход " << endl;;
-        int Choice;
-        cin >> Choice;
+        system("clear");
+        cout << "Choose type:" << endl;;
+        cout << "[1] - int" << endl;;
+        cout << "[2] - float" << endl;;
+        cout << "[3] - double" << endl;;
+        cout << "[4] - complex (float)" << endl;;
+        cout << "[5] - complex (double)" << endl;;
+        cout << "[ESC] - Exit" << endl;;
+
+        int Choice = _getch();
         system("cls");
         switch (Choice)
         {
-        case 1:
+        case 49:
+            cout << "type - int" << endl;
             Menu1<int>();
             break;
-        case 2:
+        case 50:
+            cout << "type - float" << endl;
             Menu1<float>();
             break;
-        case 3:
+        case 51:
+            cout << "type - double" << endl;
             Menu1<double>();
             break;
-        case 4:
-            Menu1<complex<float>>();
+        case 52:
+            cout << "type - complex(float)" << endl;
+            Menu1<std::complex<float>>();
             break;
-        case 5:
+        case 53:
+            cout << "type - complex(double)" << endl;
             Menu1<complex<double>>();
             break;
-        case 6:
+        case 27:
             return EXIT_SUCCESS;
         default:
+            system("clear");
             break;
         }
         system("cls");
